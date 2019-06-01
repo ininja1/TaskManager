@@ -4,10 +4,6 @@ var _koa = require('koa');
 
 var _koa2 = _interopRequireDefault(_koa);
 
-var _fs = require('fs');
-
-var _fs2 = _interopRequireDefault(_fs);
-
 var _config = require('./config.js');
 
 var _config2 = _interopRequireDefault(_config);

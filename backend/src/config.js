@@ -1,3 +1,5 @@
+'use strict';
+
 const config = {
   name: 'Task Manager',
   port: 8080,
