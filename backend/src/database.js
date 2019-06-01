@@ -22,7 +22,7 @@ const methods = {
 
   getRecord : async (id) => {
     const record = mybase[Number(id)];
-      const result = `id : ${record.id} || name : ${record.name}`;
+      const result = `id : ${record.id} | name : ${record.name} | ${record.tasks}`;
       return result;
   },
 };

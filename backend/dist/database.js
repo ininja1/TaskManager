@@ -24,7 +24,7 @@ var methods = {
 
   getRecord: async function getRecord(id) {
     var record = mybase[Number(id)];
-    var result = 'id : ' + record.id + ' || name : ' + record.name;
+    var result = 'id : ' + record.id + ' | name : ' + record.name + ' | ' + record.tasks;
     return result;
   }
 };
