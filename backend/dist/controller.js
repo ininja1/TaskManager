@@ -16,8 +16,28 @@ client.connect();
 
 var methods = {
   getAll: async function getAll() {
-    var data = await client.query('SELECT * FROM users');
-    return data.rows;
+    var _ref = await client.query('SELECT * FROM users'),
+        rows = _ref.rows;
+
+    var str = '';
+    rows.forEach(function (obj) {
+      for (var key in obj) {
+        str += key + ' : ' + obj[key] + '\n';
+      }
+      str += '\n\n';
+    });
+    return str;
+  },
+
+  getUser: async function getUser(id) {
+    var _ref2 = await client.query('SELECT * FROM users WHERE id=$1', [id]),
+        rows = _ref2.rows;
+
+    var str = '';
+    for (var key in rows[0]) {
+      str += key + ' : ' + rows[0][key] + '\n';
+    }
+    return str;
   }
 };
 

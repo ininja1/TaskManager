@@ -28,6 +28,13 @@ router.get('/', async function (ctx, next) {
   } else {
     ctx.status = 404;
   }
+}).get('/record/:id', async function (ctx, next) {
+  var record = await _controller2.default.getUser(ctx.params.id);
+  if (record) {
+    ctx.body = record;
+  } else {
+    ctx.status = 404;
+  }
 });
 
 function routes() {

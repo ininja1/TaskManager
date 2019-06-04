@@ -19,6 +19,14 @@ router
   } else {
     ctx.status = 404;
   }
+})
+.get('/record/:id', async (ctx, next) => {
+  const record = await methods.getUser(ctx.params.id);
+  if (record) {
+    ctx.body = record;
+  } else {
+    ctx.status = 404;
+  }
 });
 
 
