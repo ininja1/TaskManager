@@ -1,0 +1,35 @@
+{
+  "name": "backend",
+  "version": "0.1.0",
+  "description": "Backend part of TaskManager project",
+  "main": "app.js",
+  "scripts": {
+    "build": "babel src -d dist --presets es2015",
+    "watch": "babel src -d dist --presets es2015 -w",
+    "dev": "cd dist && nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ininja1/TaskManager.git"
+  },
+  "author": "ininja",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ininja1/TaskManager/issues"
+  },
+  "homepage": "https://github.com/ininja1/TaskManager#readme",
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-body": "^4.1.0",
+    "koa-convert": "^1.2.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "nodemon": "^1.19.1",
+    "pg": "^7.11.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}

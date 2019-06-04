@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var config = {
   name: 'Task Manager',
-  port: 8080
+  port: 4000
 };
 
 exports.default = config;

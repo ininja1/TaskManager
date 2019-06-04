@@ -2,7 +2,7 @@
 
 const config = {
   name: 'Task Manager',
-  port: 8080,
+  port: 4000
 };
 
 export default config;
