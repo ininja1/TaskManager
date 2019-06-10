@@ -57,21 +57,36 @@ var methods = {
 
     try {
       var tasks = rows[0].tasks;
-      return tasks;
+      return tasks.join(', ');
     } catch (e) {
       throw new Error('There are no tasks with the id : ' + id);
     }
   },
 
-  //Deletes user with id
+  //Pushes new user
   pushUser: async function pushUser(params) {
     var name = params.name,
-        login = params.login,
-        password = params.password,
-        tasks = params.tasks;
+        log = params.log,
+        pass = params.pass;
 
-    var queryString = 'INSERT INTO users (name, login, password, tasks) VALUES ($1, $2, $3, $4)';
-    var result = await client.query(queryString, [name, login, password, tasks]);
+    var queryString = 'INSERT INTO users (name, login, password) VALUES ($1, $2, $3)';
+    var result = await client.query(queryString, [name, log, pass]);
+    return result;
+  },
+
+  //Pushes new task with precise id
+  pushTask: async function pushTask(params) {
+    var id = params.id,
+        newtask = params.newtask;
+
+    var tasks = await methods.getTasks(id);
+    if (tasks) {
+      tasks.push(newtask);
+    } else {
+      tasks = [newtask];
+    }
+    var queryString = 'UPDATE users SET tasks = $1 WHERE (id = $2)';
+    var result = client.query(queryString, [tasks, Number(id)]);
     return result;
   },
 
@@ -82,29 +97,33 @@ var methods = {
     return result;
   },
 
-  //Provides pushing new task into the db(Gets the array of existing tasks and )
-  pushTask: async function pushTask(id, task) {
-    var tasks = await methods.getTasks(id);
-    tasks.unshift(task);
-    var queryString = 'UPDATE users SET tasks = $1 WHERE (id = $2)';
-    var result = await client.query(queryString, [tasks, id]);
-    return result;
-  },
-
   //Deletes task with id of user and task in the task array
-  deleteTask: async function deleteTask(id, index) {
+  deleteTask: async function deleteTask(params) {
+    var id = params.id,
+        ind = params.ind;
+
     var tasks = await methods.getTasks(id);
-    if (!tasks || tasks.length === 0) return 404;
-    tasks.splice(index, 1);
+    if (typeof task === 'null' || tasks.length === 0) {
+      throw new Error('There are not tasks with the users id : ' + id);
+    };
+    tasks.splice(ind, 1);
     var queryString = 'UPDATE users SET tasks = $1 WHERE (id = $2)';
     var result = await client.query(queryString, [tasks, id]);
     return result;
   },
 
   //Updates task with current id
-  updateTask: async function updateTask(id, index, newtask) {
+  updateTask: async function updateTask(params) {
+    var id = params.id,
+        ind = params.ind,
+        newtask = params.newtask;
+
     var tasks = await methods.getTasks(id);
-    tasks.splice(index, 1, newtask);
+    if (tasks) {
+      tasks.splice(ind, 1, newtask);
+    } else {
+      throw new Error('Tasks are absent with id: ' + id);
+    }
     var queryString = 'UPDATE users SET tasks = $1 WHERE (id = $2)';
     var result = await client.query(queryString, [tasks, id]);
     return result;

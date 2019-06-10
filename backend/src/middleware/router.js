@@ -7,13 +7,13 @@ const router = new Router();
 
 router
 //Ready routes
-.get('/', async (ctx, next) => {
+.get('/', async (ctx, next) => { //Tested
   ctx.body = 'Authorisation page';
 })
-.get('/app', async (ctx, next) => {
+.get('/app', async (ctx, next) => { //Tested
   ctx.body = 'Main page';
 })
-.get('/records', async (ctx, next) => {
+.get('/records', async (ctx, next) => { //Tested
   try {
     const records = await methods.getAll();
     ctx.body = records;
@@ -22,7 +22,7 @@ router
     ctx.body = `Records can't be found. An error "${e.message}" occured`;
   }
 })
-.get('/record/id=:id', async (ctx, next) => {
+.get('/record/id=:id', async (ctx, next) => { //Tested
   try {
     const record = await methods.getUser(ctx.params.id);
     ctx.body = record;
@@ -32,7 +32,7 @@ router
   }
 })
 .get('/tasks/id=:id', async (ctx, next) => {
-  try {
+  try { //Tested
     const tasks = await methods.getTasks(ctx.params.id);
     ctx.body = tasks;
   } catch(e) {
@@ -44,9 +44,8 @@ router
   ctx.body = `The page for url: ${ctx.url} is unreacheble`;
   ctx.status = 404;
 })
-.post('/user', async(ctx, next) => {
+.post('/user/name=:name&log=:log&pass=:pass', async(ctx, next) => { //Tested
   try {
-    //const result = await methods.pushUser({name: 'Test', login: 'test10', password: '11111111', tasks: ['Test']});
     const result = await methods.pushUser(ctx.params);
     ctx.body = `A new user is inserted`;
   } catch(e) {
@@ -54,9 +53,18 @@ router
     ctx.body = `A new user can't be pushed. An error "${e.message}" occured`;
   }
 })
-.delete('/user/id=:id', async(ctx, next) => {
+.post('/task/id=:id&newtask=:newtask', async (ctx, next) => { //Tested
   try {
-    //const result = await methods.deleteUser({id : 10, name: 'test8', login: 'postpost', password: '11111111'});
+    const result = await methods.pushTask(ctx.params);
+    ctx.body = result;
+  } catch(e) {
+    ctx.status = 500;
+    ctx.body = `${e.message}`;
+  }
+
+})
+.delete('/user/id=:id', async(ctx, next) => { //Tested
+  try {
     const result = await methods.deleteUser(ctx.params.id);
     ctx.body = result;
   } catch(e) {
@@ -64,28 +72,22 @@ router
     ctx.body = `The user can't be deleted. An error "${e.message} occured"`;
   }
 })
-.delete('/task', async (ctx, next) => {
+.delete('/task/id=:id&ind=:ind', async (ctx, next) => { //Tested
   try {
-    let result = await methods.deleteTask(2, 0);
-    //const result = await methods.deleteTask(ctx.params);
-    if (result === 404) {
-      ctx.status = 404;
-      result = 'Tasks are not found. Error 404'
-    }
+    const result = await methods.deleteTask(ctx.params);
     ctx.body = result;
   } catch(e) {
     ctx.status = 500;
     ctx.body = e.message;
   }
 })
-.put('/task', async (ctx, next) => {
+.put('/task/id=:id&ind=:ind&newtask=:newtask', async (ctx, next) => { //Tested
   try {
-    const result = await methods.updateTask(4, 0, 'Finish the curcash');
-    //const result = await methods.pushTask(ctx.params);
+    const result = await methods.updateTask(ctx.params);
     ctx.body = result;
   } catch(e) {
     ctx.status = 500;
-    ctx.body = `Task can't be updated`;
+    ctx.body = `${e.message}`;
   }
 });
 

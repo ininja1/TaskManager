@@ -20,10 +20,13 @@ var router = new _koaRouter2.default();
 router
 //Ready routes
 .get('/', async function (ctx, next) {
+  //Tested
   ctx.body = 'Authorisation page';
 }).get('/app', async function (ctx, next) {
+  //Tested
   ctx.body = 'Main page';
 }).get('/records', async function (ctx, next) {
+  //Tested
   try {
     var records = await _controller2.default.getAll();
     ctx.body = records;
@@ -32,6 +35,7 @@ router
     ctx.body = 'Records can\'t be found. An error "' + e.message + '" occured';
   }
 }).get('/record/id=:id', async function (ctx, next) {
+  //Tested
   try {
     var record = await _controller2.default.getUser(ctx.params.id);
     ctx.body = record;
@@ -41,6 +45,7 @@ router
   }
 }).get('/tasks/id=:id', async function (ctx, next) {
   try {
+    //Tested
     var tasks = await _controller2.default.getTasks(ctx.params.id);
     ctx.body = tasks;
   } catch (e) {
@@ -50,45 +55,50 @@ router
 }).get('*', async function (ctx, next) {
   ctx.body = 'The page for url: ' + ctx.url + ' is unreacheble';
   ctx.status = 404;
-}).post('/user', async function (ctx, next) {
+}).post('/user/name=:name&log=:log&pass=:pass', async function (ctx, next) {
+  //Tested
   try {
-    //const result = await methods.pushUser({name: 'Test', login: 'test10', password: '11111111', tasks: ['Test']});
     var result = await _controller2.default.pushUser(ctx.params);
     ctx.body = 'A new user is inserted';
   } catch (e) {
     ctx.status = 500;
     ctx.body = 'A new user can\'t be pushed. An error "' + e.message + '" occured';
   }
-}).delete('/user/id=:id', async function (ctx, next) {
+}).post('/task/id=:id&newtask=:newtask', async function (ctx, next) {
+  //Tested
   try {
-    //const result = await methods.deleteUser({id : 10, name: 'test8', login: 'postpost', password: '11111111'});
+    var result = await _controller2.default.pushTask(ctx.params);
+    ctx.body = result;
+  } catch (e) {
+    ctx.status = 500;
+    ctx.body = '' + e.message;
+  }
+}).delete('/user/id=:id', async function (ctx, next) {
+  //Tested
+  try {
     var result = await _controller2.default.deleteUser(ctx.params.id);
     ctx.body = result;
   } catch (e) {
     ctx.status = 500;
     ctx.body = 'The user can\'t be deleted. An error "' + e.message + ' occured"';
   }
-}).delete('/task', async function (ctx, next) {
+}).delete('/task/id=:id&ind=:ind', async function (ctx, next) {
+  //Tested
   try {
-    var result = await _controller2.default.deleteTask(2, 0);
-    //const result = await methods.deleteTask(ctx.params);
-    if (result === 404) {
-      ctx.status = 404;
-      result = 'Tasks are not found. Error 404';
-    }
+    var result = await _controller2.default.deleteTask(ctx.params);
     ctx.body = result;
   } catch (e) {
     ctx.status = 500;
     ctx.body = e.message;
   }
-}).put('/task', async function (ctx, next) {
+}).put('/task/id=:id&ind=:ind&newtask=:newtask', async function (ctx, next) {
+  //Tested
   try {
-    var result = await _controller2.default.updateTask(4, 0, 'Finish the curcash');
-    //const result = await methods.pushTask(ctx.params);
+    var result = await _controller2.default.updateTask(ctx.params);
     ctx.body = result;
   } catch (e) {
     ctx.status = 500;
-    ctx.body = 'Task can\'t be updated';
+    ctx.body = '' + e.message;
   }
 });
 
