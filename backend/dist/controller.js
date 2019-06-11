@@ -57,7 +57,7 @@ var methods = {
 
     try {
       var tasks = rows[0].tasks;
-      return tasks.join(', ');
+      return tasks;
     } catch (e) {
       throw new Error('There are no tasks with the id : ' + id);
     }
@@ -103,7 +103,7 @@ var methods = {
         ind = params.ind;
 
     var tasks = await methods.getTasks(id);
-    if (typeof task === 'null' || tasks.length === 0) {
+    if (!tasks || tasks.length === 0) {
       throw new Error('There are not tasks with the users id : ' + id);
     };
     tasks.splice(ind, 1);
